@@ -126,18 +126,9 @@ public class ViewInternalStorageAction extends ActionBase {
 
     private int getSheetContent(Sheet sheet, List<List<Cell>> data) {
         int columnNumber = 0;
-        for (int r = 0; r <= sheet.getLastRowNum(); r++) {
-            List<Cell> cells = new ArrayList<>();
-            Row row = sheet.getRow(r);
-            if (row == null) {
-                break;
-            } else {
-                for (int c = 0; c < row.getLastCellNum(); c++) {
-                    cells.add(row.getCell(c));
-                }
-            }
-            data.add(cells);
-            columnNumber = Math.max(columnNumber, cells.size());
+        for (Row row : sheet) {
+            for (Cell cell : row) data.add((List<Cell>) cell);
+            columnNumber = Math.max(columnNumber, row.getLastCellNum());
         }
         return columnNumber;
     }
